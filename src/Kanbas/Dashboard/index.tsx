@@ -3,10 +3,10 @@ export default function Dashboard() {
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-            <h2 id="wd-dashboard-published">Published Courses (7)</h2> <hr />
+            <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
 
             <div id="wd-dashboard-courses">
-                {/*Course 1 - Full Stack*/}
+
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
                         to="/Kanbas/Courses/1234/Home">
@@ -25,7 +25,7 @@ export default function Dashboard() {
                 <br />
                 <hr />
                 <br />
-                {/*Course 2 - Art*/}
+
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
                         to="/Kanbas/Courses/2000/Home">
@@ -44,7 +44,6 @@ export default function Dashboard() {
                 <br />
                 <hr />
                 <br />
-                {/*Course 3 - Math*/}
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
                         to="/Kanbas/Courses/1100/Home">
@@ -63,7 +62,7 @@ export default function Dashboard() {
                 <br />
                 <hr />
                 <br />
-                {/*Course 4 - Physics*/}
+
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
                         to="/Kanbas/Courses/4400/Home">
@@ -82,7 +81,7 @@ export default function Dashboard() {
                 <br />
                 <hr />
                 <br />
-                {/*Course 5 - Chemistry*/}
+
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
                         to="/Kanbas/Courses/4320/Home">
@@ -101,7 +100,7 @@ export default function Dashboard() {
                 <br />
                 <hr />
                 <br />
-                {/*Course 6 - Gym*/}
+
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
                         to="/Kanbas/Courses/1010/Home">
@@ -120,7 +119,6 @@ export default function Dashboard() {
                 <br />
                 <hr />
                 <br />
-                {/*Course 7 - Hacking*/}
                 <div className="wd-dashboard-course">
                     <Link className="wd-dashboard-course-link"
                         to="/Kanbas/Courses/5500/Home">
