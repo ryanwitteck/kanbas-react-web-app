@@ -177,6 +177,8 @@ export default function Lab1() {
         <button id="wd-all-good" onClick={() => alert("Life is Good!")} type="button">
           Hello World!
         </button>
+        <h5>File upload</h5>
+        <input id="wd-upload" type="file" />
         <h5 id="wd-radio-buttons">Radio buttons</h5>
         <label>Favorite movie genre:</label>
         <br />
@@ -252,9 +254,9 @@ export default function Lab1() {
           value="2000-01-21" /><br />
         <h4>Anchor tag</h4>
         Please <a id="wd-lipsum" href="https://www.lipsum.com">click here</a> to get dummy text<br />
+        Click Here for the github repo: <a id="wd-github" href="https://github.com/ryanwitteck/kanbas-react-web-app">click here</a><br />
+
       </div>
-
-
     </div>
   );
 
