@@ -3,7 +3,7 @@ export default function Dashboard() {
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-            <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
+            <h2 id="wd-dashboard-published">Published Courses (7)</h2> <hr />
 
             <div id="wd-dashboard-courses">
 
@@ -32,10 +32,10 @@ export default function Dashboard() {
                         <img src="/images/artPic.jpg" width={200} />
                         <div>
                             <h5>
-                                ART2000 Art Class
+                                ART2000 
                             </h5>
                             <p className="wd-dashboard-course-title">
-                                Artist
+                                Intro To Art
                             </p>
                             <button> Go </button>
                         </div>
@@ -50,10 +50,10 @@ export default function Dashboard() {
                         <img src="/images/mathPic.jpg" width={200} />
                         <div>
                             <h5>
-                                MATH1100 Math Theory
+                                MATH1100 
                             </h5>
                             <p className="wd-dashboard-course-title">
-                                Mathmatician
+                                Intro to Math
                             </p>
                             <button> Go </button>
                         </div>
@@ -69,10 +69,10 @@ export default function Dashboard() {
                         <img src="/images/physPic.jpg" width={200} />
                         <div>
                             <h5>
-                                SC4400 Physics
+                                SC4400 
                             </h5>
                             <p className="wd-dashboard-course-title">
-                                Physicist
+                                Angular Physics
                             </p>
                             <button> Go </button>
                         </div>
@@ -88,10 +88,10 @@ export default function Dashboard() {
                         <img src="/images/chemPic.jpg" width={200} />
                         <div>
                             <h5>
-                                SC4320 Chemistry
+                                SC4320 
                             </h5>
                             <p className="wd-dashboard-course-title">
-                                Chemist
+                                Chemistry
                             </p>
                             <button> Go </button>
                         </div>
@@ -107,7 +107,7 @@ export default function Dashboard() {
                         <img src="/images/gymPic.jpg" width={200} />
                         <div>
                             <h5>
-                                SP1010 Gym
+                                SP1010 
                             </h5>
                             <p className="wd-dashboard-course-title">
                                 Gym
@@ -125,10 +125,10 @@ export default function Dashboard() {
                         <img src="/images/cyberPic.jpg" width={200} />
                         <div>
                             <h5>
-                                CS5500 Cybersecurity
+                                CS5500 
                             </h5>
                             <p className="wd-dashboard-course-title">
-                                Hacker
+                                Foundations of Cybersecurity
                             </p>
                             <button> Go </button>
                         </div>
