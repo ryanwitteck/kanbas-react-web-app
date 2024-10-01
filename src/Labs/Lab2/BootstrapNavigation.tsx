@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
 export default function BootstrapNavigation(){
     return(<div id="wd-css-navigating-with-cards">
         <h2>
