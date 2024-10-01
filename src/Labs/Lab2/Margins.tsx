@@ -28,4 +28,4 @@ export default function Margins(){
         </div>
       </div>
       )
-}
+};
