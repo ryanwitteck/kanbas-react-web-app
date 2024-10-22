@@ -10,9 +10,9 @@ import { useParams } from "react-router";
 export default function Assignments() {
   const { cid } = useParams();
   const assignments = db.assignments;
-  var months = [ "January", "February", "March", "April", "May", "June", 
-             "July", "August", "September", "October", "November", "December" ];
-  return (
+  
+  
+             return (
     <div>
       <AssignmentControls /> <br /><br /><br />
       <ul id="wd-assignment-list-item" className="list-group rounded-0 container-fluid px-3">
@@ -43,7 +43,7 @@ export default function Assignments() {
                       </div>
                       <div className="d-flex align-items-center">
                         <span className="text-danger">Multiple Modules </span>
-                        <span className="me-2">&nbsp; | <b>&nbsp;Not available until&nbsp;</b> {module.available_from} |&nbsp; <b>Due&nbsp;</b> {module.due_date} | {module.points} pts</span>
+                        <span className="me-2">&nbsp; | <b>&nbsp;Not available until&nbsp;</b> {new Date(module.available_to).toLocaleDateString()} {new Date(module.available_to).toLocaleTimeString()} |&nbsp; <b>Due&nbsp;</b> {new Date(module.due_date).toLocaleDateString()} {new Date(module.due_date).toLocaleTimeString()} | {module.points} pts</span>
                       </div>
                     </div>
                   </a>
