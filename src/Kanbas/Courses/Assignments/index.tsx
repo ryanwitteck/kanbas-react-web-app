@@ -1,5 +1,4 @@
 import { BsGripVertical } from "react-icons/bs";
-import ModuleControlButtons from "../Modules/ModuleControlButtons";
 import AssignmentControls from "./AssignmentControls";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import AssignmentControlButtons from "./AssignmentControlButtons";
