@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
 import { useSelector } from "react-redux";
@@ -13,7 +13,6 @@ export default function TodoList() {
                 {todos.map((todo: any) => (
                     <TodoItem todo={todo} />
                 ))}
-
             </ul>
             <hr />
         </div>
