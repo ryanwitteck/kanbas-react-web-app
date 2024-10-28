@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { useLocation } from "react-router";
 export default function TOC() {
   const { pathname } = useLocation();
