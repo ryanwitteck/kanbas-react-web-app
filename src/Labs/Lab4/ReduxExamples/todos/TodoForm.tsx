@@ -14,7 +14,7 @@ export default function TodoForm() {
                     Update </button>
 
 
-                <input className="col ms-auto m-2" defaultValue={todo.title}
+                <input className="col ms-auto m-2" value={todo.title}
                     onChange={(e) =>
                         dispatch(setTodo({
                             ...todo,
