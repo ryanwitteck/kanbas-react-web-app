@@ -1,19 +1,32 @@
 import { BsGripVertical } from "react-icons/bs";
 import AssignmentControls from "./AssignmentControls";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import AssignmentBarControlButtons from "./AssignmentBarControlButtons";
 import { IoIosArrowDown } from "react-icons/io";
 import * as db from "../../Database/";
 import { useParams } from "react-router";
+import { useState } from "react";
+import RightSideIcons from "./RightSideIcons";
 export default function Assignments() {
+
+  const [assignments, setAssignment] = useState<any[]>(db.assignments);
+  const [assignmentName, setAssignmentName] = useState("");
   const { cid } = useParams();
-  const assignments = db.assignments;
-  
-  
-             return (
+  const addAssignments = () => {
+    setAssignment([...db.assignments, {
+      _id: new Date().getTime().toString(),
+      title: assignmentName, course: cid
+    }]);
+    setAssignmentName("");
+  };
+  const deleteAssignment = (assignmentId: string) => {
+    setAssignment(assignments.filter((a) => a._id !== assignmentId));
+  };
+
+
+  return (
     <div>
-      <AssignmentControls /> <br /><br /><br />
+      <AssignmentControls setAssignmentName={setAssignmentName} assignmentName={assignmentName} addAssignment={addAssignments} /> <br /><br /><br />
       <ul id="wd-assignment-list-item" className="list-group rounded-0 container-fluid px-3">
         <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
           <div className="wd-title p-3 ps-2 bg-secondary">
@@ -37,8 +50,6 @@ export default function Assignments() {
                     <div className="d-flex flex-column">
                       <div className="d-flex justify-content-between align-items-center">
                         <b>{module.title}</b>
-                        <div className="wd-pos-relative-nudge-down">
-                          <LessonControlButtons /></div>
                       </div>
                       <div className="d-flex align-items-center">
                         <span className="text-danger">Multiple Modules </span>
@@ -46,6 +57,9 @@ export default function Assignments() {
                       </div>
                     </div>
                   </a>
+                  <div style={{position : "absolute", right: "0px", top :"40%"}}>
+                          <RightSideIcons assignmentId={module._id}
+                          deleteAssignment={deleteAssignment}/></div>
                 </li>))}
           </ul>
         </li>
