@@ -8,6 +8,8 @@ import * as db from "./Database";
 import { useState } from "react";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import ProtectedCourse from "./Dashboard/ProtectedCourse";
+import Session from "./Account/Session";
+
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>(db.courses);
@@ -40,24 +42,26 @@ export default function Kanbas() {
   };
 
   return (
-    <div id="wd-kanbas">
-      <KanbasNavigation />
-      <div className="wd-main-content-offset">
-        <Routes>
-          <Route path="/" element={<Navigate to="Account" />} />
-          <Route path="/Account/*" element={<Account />} />
-          <Route path="/Dashboard" element={<ProtectedRoute><Dashboard
-            courses={courses}
-            course={course}
-            setCourse={setCourse}
-            addNewCourse={addNewCourse}
-            deleteCourse={deleteCourse}
-            updateCourse={updateCourse} /></ProtectedRoute>} />
-          <Route path="/Courses/:cid/*" element={<ProtectedCourse><Courses courses={courses}/></ProtectedCourse>} />
-          <Route path="/Calendar" element={<h1>Calendar</h1>} />
-          <Route path="/Inbox" element={<h1>Inbox</h1>} />
-        </Routes>
+    <Session>
+      <div id="wd-kanbas">
+        <KanbasNavigation />
+        <div className="wd-main-content-offset">
+          <Routes>
+            <Route path="/" element={<Navigate to="Account" />} />
+            <Route path="/Account/*" element={<Account />} />
+            <Route path="/Dashboard" element={<ProtectedRoute><Dashboard
+              courses={courses}
+              course={course}
+              setCourse={setCourse}
+              addNewCourse={addNewCourse}
+              deleteCourse={deleteCourse}
+              updateCourse={updateCourse} /></ProtectedRoute>} />
+            <Route path="/Courses/:cid/*" element={<ProtectedCourse><Courses courses={courses} /></ProtectedCourse>} />
+            <Route path="/Calendar" element={<h1>Calendar</h1>} />
+            <Route path="/Inbox" element={<h1>Inbox</h1>} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Session>
   );
 }
