@@ -5,7 +5,7 @@ import { updateAssignment } from "./reducer";
 import "../../style.css";
 import { RxCaretDown } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
-
+import * as assignmentClient from "./client";
 
 export default function AssignmentEditor() {
     const { cid, aid } = useParams();
@@ -34,6 +34,31 @@ export default function AssignmentEditor() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
+    const saveAssignment = async () => {
+        const x = {
+            _id: aid,
+            title,
+            description,
+            points,
+            due_date: dueDate,
+            available_from: availableFrom,
+            available_to: availableUntil,
+            submission_type: submissionType,
+            group: assignmentGroup,
+            text_entry: text,
+            url_entry: url,
+            media_recording: mediaRecording,
+            student_annotation: studentAnnotation,
+            file_upload: fileUpload,
+            display_grade_as: displayGrade
+        };
+    
+        await assignmentClient.updateAssignment(x);
+        dispatch(updateAssignment(x));
+        navigate(`/Kanbas/Courses/${cid}/Assignments/`);
+    };
+
     useEffect(() => {
         if (assignment !== null) {
             setTitle(assignment.title);
@@ -53,7 +78,7 @@ export default function AssignmentEditor() {
 
         }
     }, [assignment]);
-
+/*
     const handleSubmit = (e: any) => {
         dispatch(updateAssignment({
             _id: aid,
@@ -71,12 +96,9 @@ export default function AssignmentEditor() {
             student_annotation: studentAnnotation,
             file_upload: fileUpload,
             display_grade_as: displayGrade
-
-
         }));
         navigate(`/Kanbas/Courses/${cid}/Assignments/`);
-
-    };
+    };*/
 
     return (
         <div id="wd-assignments-editor" className="container mt-4">
@@ -227,7 +249,7 @@ export default function AssignmentEditor() {
             <div className="d-flex justify-content-end">
                 <Link to={`/Kanbas/Courses/${cid}/Assignments/`}> <button className="btn btn-secondary me-3">Cancel</button> </Link>
 
-                <button onClick={handleSubmit} className="btn btn-danger">Submit</button>
+                <button onClick={saveAssignment} className="btn btn-danger">Submit</button>
 
             </div>
         </div>
