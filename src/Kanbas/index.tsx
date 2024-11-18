@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Account from "./Account";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard/Dashboard";

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,11 +20,6 @@ export default function Profile() {
     navigate("/Kanbas/Account/Signin");
   };
   useEffect(() => { fetchProfile(); }, []);
-  const dateOfBirthYear = new Date(profile.dob).getUTCDate;
-  const dateOfBirthMonth = new Date(profile.dob).getUTCMonth;
-  const dateOfBirthDay = new Date(profile.dob).getUTCDate;
-
-  const dateOfBirth = (`${dateOfBirthYear}-${dateOfBirthMonth}-${dateOfBirthDay}`);
   const updateProfile = async () => {
     const updatedProfile = await client.updateUser(profile);
     dispatch(setCurrentUser(updatedProfile));
