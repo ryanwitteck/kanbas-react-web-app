@@ -11,8 +11,6 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
     updateCourse: () => void;
   }) {
   const dispatch = useDispatch();
-
-
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const enrollments = useSelector((state: any) => state.enrollmentReducer.enrollments);
 
