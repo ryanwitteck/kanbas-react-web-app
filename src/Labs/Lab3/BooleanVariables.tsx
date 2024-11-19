@@ -1,5 +1,5 @@
 export default function VariableTypes() {
-    let numberVariable = 123, floatingPointNumber = 234.345; let true1 = true, false1 = false;
+    let numberVariable = 123; let true1 = true, false1 = false;
     let false2 = true1 && false1;
     let true2 = true1 || false1;
     let true3 = !false2;

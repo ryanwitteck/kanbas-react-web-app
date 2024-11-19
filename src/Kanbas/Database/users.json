@@ -1,11 +1,38 @@
-[{
+[
+  {
+    "_id": "101",
+    "username": "b",
+    "password": "a",
+    "firstName": "Bohn",
+    "lastName": "Jobson",
+    "email": "Bohn@jobson.com",
+    "dob": "1979-12-03",
+    "role": "FACULTY",
+    "loginId": "111234161S",
+    "section": "S101",
+    "lastActivity": "2020-11-05",
+    "totalActivity": "10:28:39"
+  },{
+  "_id": "100",
+  "username": "a",
+  "password": "b",
+  "firstName": "John",
+  "lastName": "Bobson",
+  "email": "john@bobson.com",
+  "dob": "1978-12-03",
+  "role": "STUDENT",
+  "loginId": "001234161S",
+  "section": "S101",
+  "lastActivity": "2020-10-05",
+  "totalActivity": "10:21:39"
+},{
     "_id": "123",
     "username": "iron_man",
     "password": "stark123",
     "firstName": "Tony",
     "lastName": "Stark",
     "email": "tony@stark.com",
-    "dob": "1970-05-29T00:00:00.000Z",
+    "dob": "1970-05-29",
     "role": "FACULTY",
     "loginId": "001234561S",
     "section": "S101",
