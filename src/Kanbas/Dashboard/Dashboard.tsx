@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
-import { courseEnroll, courseUnenroll } from "./reducer";
+import React, { useEffect, useState } from "react";
+import { courseEnroll, courseUnenroll, setEnrollemnts } from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
+import * as x from "./client";
 
 export default function Dashboard({ courses, course, setCourse, addNewCourse,
   deleteCourse, updateCourse }: {
@@ -18,6 +20,26 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
   const isStudentRole = currentUser.role === "STUDENT";
 
   const [toggleCourseView, setCourseView] = useState(false);
+
+  const fetchEnrollments = async () => {
+    const enrollments = await x.fetchEnrollments(currentUser._id as string);
+    dispatch(setEnrollemnts(enrollments));
+  };
+  useEffect(() => {
+    fetchEnrollments();
+  }, []);
+
+  const removeEnrollment = async (enrollmentId: string) => {
+    await x.deleteEnrollment(enrollmentId);
+    dispatch(courseUnenroll(enrollmentId));
+    fetchEnrollments();
+  };
+
+  const addEnrollment = async ({ user, course }: { user: string; course: string }) => {
+    const newEnrollment = await x.createEnrollment(user, course);
+    dispatch(courseEnroll(newEnrollment));
+    fetchEnrollments();
+  };
 
   return (
     <div id="wd-dashboard">
@@ -67,7 +89,6 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                       <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                         {course.description} </p>
                       <button className="btn btn-primary"> Go </button>
-
                       {isFacultyRole && <button onClick={(event) => {
                         event.preventDefault();
                         deleteCourse(course._id);
@@ -87,8 +108,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                       {(isStudentRole && isEnrolled) && (
                         <button
                           onClick={(event) => {
-                            event.preventDefault();
-                            dispatch(courseUnenroll({ _id: enrollments.find((e: any) => e.user === currentUser._id && e.course === course._id)._id }));
+                            removeEnrollment(enrollments.find((e: any) => e.user === currentUser._id && e.course === course._id)._id);
                           }}
                           className={"btn btn-danger float-end"}
                           id="wd-enroll-course-btn"
@@ -100,7 +120,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                         <button
                           onClick={(event) => {
                             event.preventDefault();
-                            dispatch(courseEnroll({ user: currentUser._id, course: course._id }));
+                            addEnrollment({ user: currentUser._id, course: course._id });
                           }}
                           className={"btn btn-success float-end"}
                           id="wd-enroll-course-btn"
@@ -117,7 +137,12 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
             );
           })
             :
-            courses
+            courses.filter((course) =>
+              enrollments.some(
+                (enrollment: any) =>
+                  enrollment.user === currentUser._id &&
+                  enrollment.course === course._id
+              ))
               .map((course) => (
                 <div className="wd-dashboard-course col" style={{ width: "300px" }}>
                   <div className="card rounded-3 overflow-hidden">
@@ -150,8 +175,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                           <button
                             onClick={(event) => {
                               event.preventDefault();
-                              dispatch(courseUnenroll({ _id: enrollments.find((e: any) => e.user === currentUser._id && e.course === course._id)._id }));
-
+                              removeEnrollment(enrollments.find((e: any) => e.user === currentUser._id && e.course === course._id)._id);
                             }}
                             className="btn btn-danger float-end"
                             id="wd-enroll-course-btn"
