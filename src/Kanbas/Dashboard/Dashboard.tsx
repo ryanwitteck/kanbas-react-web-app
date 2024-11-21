@@ -108,6 +108,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                       {(isStudentRole && isEnrolled) && (
                         <button
                           onClick={(event) => {
+                            event.preventDefault();
                             removeEnrollment(enrollments.find((e: any) => e.user === currentUser._id && e.course === course._id)._id);
                           }}
                           className={"btn btn-danger float-end"}
