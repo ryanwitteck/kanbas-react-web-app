@@ -50,11 +50,13 @@ export default function Assignments() {
         course: cid };
       const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
       dispatch(addAssignment(assignment));
+      fetchModules();
       };
 
   const removeAssignment = async (assignmentId: string) => {
     await assignmentClient.deleteAssignment(assignmentId);
     dispatch(deleteAssignment(assignmentId));
+    fetchModules();
     };
 
     
