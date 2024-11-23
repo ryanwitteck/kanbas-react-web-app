@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IoIosLink } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function QuizDetails() {
 
@@ -10,32 +11,6 @@ export default function QuizDetails() {
 
     const quizzes = useSelector((state: any) => state.quizReducer.quizzes);
     const quiz = quizzes.find((q: any) => q._id === qid);
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    /*
-             FIELD SPLURGE
-    */
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [points, setPoints] = useState(0);
-    const [dueDate, setDueDate] = useState("");
-    const [availableFrom, setAvailableFrom] = useState("");
-    const [availableUntil, setAvailableUntil] = useState("");
-    const [submissionType, setSubmissionType] = useState("ONLINE");
-    const [assignmentGroup, setAssignmentGroup] = useState("ASSIGNMENT");
-    const [displayGrade, setDisplayGrade] = useState("PERCENTAGE");
-    const [text, setText] = useState(false);
-    const [url, setUrl] = useState(false);
-    const [mediaRecording, setMediaRecording] = useState(false);
-    const [studentAnnotation, setStudentAnnotation] = useState(false);
-    const [fileUpload, setFileUpload] = useState(false);
-    const [assignTo] = useState("Everyone"); // will eventually need to be an array of users
-
-
-
-
     //MISC FUNCTIONS 
     let gradeTypeMessage = "Graded Quiz";
     switch (quiz.quiz_type) {
@@ -59,9 +34,10 @@ export default function QuizDetails() {
             <div className="d-flex justify-content-center align-items-center">
                 <button className="btn btn-secondary me-2">Preview
                 </button>
-                <button className="btn btn-secondary">
-                    <IoIosLink /> Edit
-                </button>
+                <Link to={`/Kanbas/Courses/${cid}/Quizzes/Editor/${qid}`}>
+                    <button className="btn btn-secondary" >
+                        <IoIosLink /> Edit
+                    </button></Link>
             </div> <hr />
 
             {/* -------------------------------------------------------------- */}
@@ -127,9 +103,17 @@ export default function QuizDetails() {
                     Show Correct Answers:
                 </b>
                 <div className="col">
-                    {quiz.show_correct_answers ? "Yes" : "No"} {/* Implement date if feel like it*/}
+                    {quiz.show_correct_answers ? "Yes" : "No"} 
                 </div>
             </div>
+            {quiz.show_correct_answers && <div className="d-flex row mt-1">
+                <b className="col" style={{ textAlign: "right" }}>
+                    Correct Answers Release Date:
+                </b>
+                <div className="col">
+                {new Date(quiz.correct_answer_release_date).toLocaleDateString()} at {new Date(quiz.correct_answer_release_date).toLocaleTimeString()}
+                </div>
+            </div>}
             <div className="d-flex row mt-1">
                 <b className="col" style={{ textAlign: "right" }}>
                     Access Code:
@@ -177,8 +161,11 @@ export default function QuizDetails() {
                     <tr className=""><th>Due</th><th>For</th><th>Available From</th><th>Available Until</th></tr>
                 </thead>
                 <tbody>
-                    <tr className=""><td> {new Date(quiz.due_date).toLocaleDateString()}</td><td>Everyone</td><td> {new Date(quiz.available_start).toLocaleDateString()}</td><td> {new Date(quiz.available_end).toLocaleDateString()}</td></tr>
-                  
+                    <tr className=""><td> {new Date(quiz.due_date).toLocaleDateString()} at {new Date(quiz.due_date).toLocaleTimeString()}</td>
+                    <td>Everyone</td>
+                    <td> {new Date(quiz.available_start).toLocaleDateString()} at {new Date(quiz.available_start).toLocaleTimeString()}</td>
+                    <td> {new Date(quiz.available_end).toLocaleDateString()} at {new Date(quiz.available_end).toLocaleTimeString()}</td></tr>
+
                 </tbody>
             </table>
 

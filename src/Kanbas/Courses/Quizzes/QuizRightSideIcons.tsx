@@ -46,7 +46,7 @@ export default function QuizRightSideIcons({
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a className="dropdown-item" href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}>Edit</a>
                     <a data-bs-toggle="modal" data-bs-target={`#${buttonId}`} className="dropdown-item" href="#">Delete</a>
-                    <a className="dropdown-item" onClick={publishQuiz}>Publish</a>
+                    <a className="dropdown-item" onClick={publishQuiz}>{quiz.published ? "Unpublish" : "Publish"}</a>
                 </div>
             </div>
             <QuizDeleter quizId={quizId}

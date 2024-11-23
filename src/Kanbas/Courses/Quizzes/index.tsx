@@ -76,14 +76,14 @@ export default function Quizzes() {
                         <a style={{ display: "block", textDecoration: "none", color: "black" }} href={`#/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}`}><b>{quiz.title}</b></a>
                       </div>
                       <div className="row">
-                        <div className="col-2 text-danger fs-6" style={{ wordWrap: "break-word" }} >
+                        <div className="col-4 text-danger fs-6" style={{ wordWrap: "break-word" }} >
                           {!quiz.available_start && !quiz.available_end && "Date Not Set"}
                           {hasQuizPassed && "Closed"}
-                          {isQuizAvailable && <div>"Available Until:"  {quiz.available_end}</div>}
-                          {isQuizInFuture && <div>"Not Available Until:"  {quiz.available_start}</div>}
+                          {isQuizAvailable && <div>Available Until: {new Date(quiz.available_end).toLocaleDateString()} at {new Date(quiz.available_end).toLocaleTimeString()}</div>}
+                          {isQuizInFuture && <div>Not Available Until:  {new Date(quiz.available_start).toLocaleDateString()} at {new Date(quiz.available_start).toLocaleTimeString()}</div>}
                         </div>
-                        <div className="col-8  fs-5" style={{ wordWrap: "break-word" }}>
-                          Due at: {quiz.due_date} | {quiz.points ? quiz.points : 0} Points | {quiz.number_of_questions} Questions
+                        <div className="col-6  fs-5 " style={{ wordWrap: "break-word" }}>
+                          Due on: {new Date(quiz.due_date).toLocaleDateString()} at {new Date(quiz.due_date).toLocaleTimeString()} | {quiz.points ? quiz.points : 0}&nbsp;Points | {quiz.number_of_questions ? quiz.number_of_questions : 0}&nbsp;Questions
                         </div>
                         <div className="col-1 " >
                         </div>
