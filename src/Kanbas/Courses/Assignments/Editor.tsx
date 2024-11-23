@@ -78,27 +78,6 @@ export default function AssignmentEditor() {
 
         }
     }, [assignment]);
-/*
-    const handleSubmit = (e: any) => {
-        dispatch(updateAssignment({
-            _id: aid,
-            title,
-            description,
-            points,
-            due_date: dueDate,
-            available_from: availableFrom,
-            available_to: availableUntil,
-            submission_type: submissionType,
-            group: assignmentGroup,
-            text_entry: text,
-            url_entry: url,
-            media_recording: mediaRecording,
-            student_annotation: studentAnnotation,
-            file_upload: fileUpload,
-            display_grade_as: displayGrade
-        }));
-        navigate(`/Kanbas/Courses/${cid}/Assignments/`);
-    };*/
 
     return (
         <div id="wd-assignments-editor" className="container mt-4">
