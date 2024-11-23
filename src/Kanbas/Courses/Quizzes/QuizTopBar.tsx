@@ -1,6 +1,7 @@
 import { FaPlus } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useNavigate } from "react-router";
 
 export default function QuizTopBar({ addQuiz }: { addQuiz: () => void; }) {
     return (<div>
