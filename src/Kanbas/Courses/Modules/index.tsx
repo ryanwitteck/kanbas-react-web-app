@@ -22,23 +22,29 @@ export default function Modules() {
     const modules = await coursesClient.findModulesForCourse(cid as string);
     dispatch(setModules(modules));
   };
-  useEffect(() => {
-    fetchModules();
-  }, []);
   const createModuleForCourse = async () => {
     if (!cid) return;
     const newModule = { name: moduleName, course: cid };
     const module = await coursesClient.createModuleForCourse(cid, newModule);
     dispatch(addModule(module));
+    fetchModules();
+
   };
   const removeModule = async (moduleId: string) => {
     await modulesClient.deleteModule(moduleId);
     dispatch(deleteModule(moduleId));
+    fetchModules();
+
   };
   const saveModule = async (module: any) => {
     await modulesClient.updateModule(module);
     dispatch(updateModule(module));
+    fetchModules();
+
   };
+  useEffect(() => {
+    fetchModules();
+  }, []);
   return (
     <div>
       <ModulesControls setModuleName={setModuleName} moduleName={moduleName} addModule={createModuleForCourse} /><br /><br /><br /><br />

@@ -33,31 +33,35 @@ export default function Assignments() {
   const fetchModules = async () => {
     const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
     dispatch(setAssignments(assignments));
-    };
-    useEffect(() => {
+  };
+  useEffect(() => {
     fetchModules();
-    }, []);
+  }, []);
 
 
-    const createAssignmentForCourse = async () => {
-      if (!cid) return;
-      const newAssignment = { title: assignmentName,
-        description,          
-        points,
-        due_date: dueDate,
-        available_from: availableFromDate,
-        available_until: availableUntilDate, 
-        course: cid };
-      const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
-      dispatch(addAssignment(assignment));
-      };
+  const createAssignmentForCourse = async () => {
+    if (!cid) return;
+    const newAssignment = {
+      title: assignmentName,
+      description,
+      points,
+      due_date: dueDate,
+      available_from: availableFromDate,
+      available_until: availableUntilDate,
+      course: cid
+    };
+    const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
+    dispatch(addAssignment(assignment));
+    fetchModules();
+  };
 
   const removeAssignment = async (assignmentId: string) => {
     await assignmentClient.deleteAssignment(assignmentId);
     dispatch(deleteAssignment(assignmentId));
-    };
+    fetchModules();
+  };
 
-    
+
 
 
   return (
