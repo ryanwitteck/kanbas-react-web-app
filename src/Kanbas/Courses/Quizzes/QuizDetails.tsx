@@ -32,8 +32,9 @@ export default function QuizDetails() {
     return (
         <div className="container mt-2">
             <div className="d-flex justify-content-center align-items-center">
-                <button className="btn btn-secondary me-2">Preview
-                </button>
+                <Link to={`/Kanbas/Courses/${cid}/Quizzes/Preview/${qid}`}>
+                    <button className="btn btn-secondary me-2">Preview
+                    </button></Link>
                 <Link to={`/Kanbas/Courses/${cid}/Quizzes/Editor/${qid}`}>
                     <button className="btn btn-secondary" >
                         <IoIosLink /> Edit
@@ -103,7 +104,7 @@ export default function QuizDetails() {
                     Show Correct Answers:
                 </b>
                 <div className="col">
-                    {quiz.show_correct_answers ? "Yes" : "No"} 
+                    {quiz.show_correct_answers ? "Yes" : "No"}
                 </div>
             </div>
             {quiz.show_correct_answers && <div className="d-flex row mt-1">
@@ -111,7 +112,7 @@ export default function QuizDetails() {
                     Correct Answers Release Date:
                 </b>
                 <div className="col">
-                {new Date(quiz.correct_answer_release_date).toLocaleDateString()} at {new Date(quiz.correct_answer_release_date).toLocaleTimeString()}
+                    {new Date(quiz.correct_answer_release_date).toLocaleDateString()} at {new Date(quiz.correct_answer_release_date).toLocaleTimeString()}
                 </div>
             </div>}
             <div className="d-flex row mt-1">
@@ -162,9 +163,9 @@ export default function QuizDetails() {
                 </thead>
                 <tbody>
                     <tr className=""><td> {new Date(quiz.due_date).toLocaleDateString()} at {new Date(quiz.due_date).toLocaleTimeString()}</td>
-                    <td>Everyone</td>
-                    <td> {new Date(quiz.available_start).toLocaleDateString()} at {new Date(quiz.available_start).toLocaleTimeString()}</td>
-                    <td> {new Date(quiz.available_end).toLocaleDateString()} at {new Date(quiz.available_end).toLocaleTimeString()}</td></tr>
+                        <td>Everyone</td>
+                        <td> {new Date(quiz.available_start).toLocaleDateString()} at {new Date(quiz.available_start).toLocaleTimeString()}</td>
+                        <td> {new Date(quiz.available_end).toLocaleDateString()} at {new Date(quiz.available_end).toLocaleTimeString()}</td></tr>
 
                 </tbody>
             </table>

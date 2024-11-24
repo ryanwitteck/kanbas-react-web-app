@@ -61,7 +61,7 @@ export default function QuizEditor() {
         dispatch(updateQuiz(x));
         navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`);
     };
-    
+
     const publishAssignment = async () => {
         const x = structuredClone(quiz);
         x.published = true;
@@ -84,7 +84,7 @@ export default function QuizEditor() {
 
         await quizClient.updateQuiz(x);
         dispatch(updateQuiz(x));
-        navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}`);
+        navigate(`/Kanbas/Courses/${cid}/Quizzes`);
     };
 
 

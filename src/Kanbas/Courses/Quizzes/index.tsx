@@ -67,7 +67,7 @@ export default function Quizzes() {
                 const hasQuizPassed = new Date(quiz.available_end) < new Date();
                 const isQuizAvailable = new Date(quiz.available_start) < new Date()
                   && new Date(quiz.available_end) > new Date();
-                const isQuizInFuture = new Date(quiz.available_end) < new Date();
+                const isQuizInFuture = new Date(quiz.available_start) > new Date();
                 return (
                   <li className="wd-lesson list-group-item p-3 ps-1">
                     <QuizLeftButtons />
@@ -78,7 +78,7 @@ export default function Quizzes() {
                       <div className="row">
                         <div className="col-4 text-danger fs-6" style={{ wordWrap: "break-word" }} >
                           {!quiz.available_start && !quiz.available_end && "Date Not Set"}
-                          {hasQuizPassed && "Closed"}
+                          {hasQuizPassed && !isQuizInFuture && "Closed"}
                           {isQuizAvailable && <div>Available Until: {new Date(quiz.available_end).toLocaleDateString()} at {new Date(quiz.available_end).toLocaleTimeString()}</div>}
                           {isQuizInFuture && <div>Not Available Until:  {new Date(quiz.available_start).toLocaleDateString()} at {new Date(quiz.available_start).toLocaleTimeString()}</div>}
                         </div>

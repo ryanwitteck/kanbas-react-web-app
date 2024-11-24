@@ -44,7 +44,7 @@ export default function QuizRightSideIcons({
                     <IoEllipsisVertical className="fs-2" />
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item" href={`#/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`}>Edit</a>
+                    <a className="dropdown-item" href={`#/Kanbas/Courses/${cid}/Quizzes/Editor/${quiz._id}`}>Edit</a>
                     <a data-bs-toggle="modal" data-bs-target={`#${buttonId}`} className="dropdown-item" href="#">Delete</a>
                     <a className="dropdown-item" onClick={publishQuiz}>{quiz.published ? "Unpublish" : "Publish"}</a>
                 </div>
