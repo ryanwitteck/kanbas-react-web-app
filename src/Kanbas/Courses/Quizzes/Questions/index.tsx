@@ -1,17 +1,13 @@
-import { RxCaretDown, RxRocket } from "react-icons/rx";
-import { useEffect, useState } from "react";
-import { IoIosLink } from "react-icons/io";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import * as courseClient from "../../client"
-import * as quizClient from "../client";
-import { addQuestion, deleteQuestion, updateQuestion, setQuestions } from "./reducer";
-import * as questionClient from "./client";
-import QuizTopBar from "../QuizTopBar";
-import { FaSearch, FaTrash } from "react-icons/fa";
-import PreviewQuestion from "./PreviewQuestion";
+import { useParams } from "react-router";
 
+import * as quizClient from "../client";
+import { addQuestion, deleteQuestion,  setQuestions } from "./reducer";
+import * as questionClient from "./client";
+import { FaSearch, FaTrash } from "react-icons/fa";
 
 export default function QuestionEditor() {
 
@@ -20,7 +16,6 @@ export default function QuestionEditor() {
     const questions = useSelector((state: any) => state.questionReducer.questions);
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const fetchQuestions = async () => {
         const quizzes = await quizClient.findQuestionsForQuiz(qid as string);
@@ -80,11 +75,55 @@ export default function QuestionEditor() {
                                     <div className="d-flex justify-content-between align-items-center ms-3">
                                         <a style={{ display: "block", textDecoration: "none", color: "black" }}
                                             href={`#/Kanbas/Courses/${cid}/Quizzes/Questions/${qid}/Editor/${question._id}`}>
+                                            {question.group === "TF" && `True/False: `}
+                                            {question.group === "MULTIPLE" && `Multiple Choice: `}
+                                            {question.group === "FILL_IN" && `Fill In: `}
                                             <b>{question.title}</b>
                                         </a>
                                         <button className="btn border-0 p-0 bg-transparent" onClick={() => removeQuestion(question._id)}><FaTrash className="text-danger me-2 mb-1" /></button>
                                     </div>
-                                    <PreviewQuestion question={question}/>
+                                    <div className="ms-3">
+                                        <hr />
+                                        Description: {question.description}
+                                        <br />
+                                        Points: {!question.points ? 0 : question.points}
+                                        <br />
+                                        {question.group === "TF" && (<div> Answer:
+                                            <b style={{ color: "green" }}>
+                                                {question.tf_answer ? " True" : " False"}
+                                            </b>
+                                        </div>
+                                        )}
+                                        {question.group === "MULTIPLE" && (
+                                            <div>
+                                                <b>Possible Answers:</b>
+                                                <ul>
+                                                    {question.multiple_answers_array.map((answer: string) => (
+                                                        <li
+                                                            style={{
+                                                                color: (question.multiple_answers_answer === answer ? "green" : "black"),
+                                                            }}
+                                                        >
+                                                            {answer}
+                                                            {question.multiple_answers_answer === answer && (
+                                                                <b style={{ color: "green" }}> -- (Correct Answer)</b>
+                                                            )}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                        {question.group === "FILL_IN" && (
+                                            <div>
+                                                <b>Accepted Answers:</b>
+                                                <ul>
+                                                    {question.fill_in_answers_array.map((answer: string) => (
+                                                        <li> {answer}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </li>);
                     })}

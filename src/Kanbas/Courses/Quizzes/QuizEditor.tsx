@@ -1,12 +1,11 @@
-import { RxCaretDown, RxRocket } from "react-icons/rx";
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { RxCaretDown } from "react-icons/rx";
 import { useEffect, useState } from "react";
-import { IoIosLink } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import * as quizClient from "./client";
 import { updateQuiz } from "./reducer";
-import { access } from "fs";
 
 
 export default function QuizEditor() {
@@ -35,7 +34,11 @@ export default function QuizEditor() {
     const [lockQuestionAfterAnswering, setLockQuestionAfterAnswering] = useState(false);
     const [timeLimit, setTimeLimit] = useState(20);
     const [accessCode, setAccessCode] = useState("");
+    const [numberOfQuestions, setNumberOfQuestions] = useState(0);
 
+    const [points, setPoints] = useState(0);
+
+    const questions = useSelector((state: any) => state.questionReducer.questions);
 
 
     const saveAssignment = async () => {
@@ -56,6 +59,9 @@ export default function QuizEditor() {
         x.access_code = accessCode;
         x.correct_answer_release_date = showCorrectAnswersDate;
         x.show_correct_answers = showCorrectAnswers;
+        x.points = points;
+        x.number_of_questions = numberOfQuestions;
+
 
         await quizClient.updateQuiz(x);
         dispatch(updateQuiz(x));
@@ -81,7 +87,18 @@ export default function QuizEditor() {
         x.access_code = accessCode;
         x.correct_answer_release_date = showCorrectAnswersDate;
         x.show_correct_answers = showCorrectAnswers;
+        x.points = points;
+        x.number_of_questions = numberOfQuestions;
 
+        await quizClient.updateQuiz(x);
+        dispatch(updateQuiz(x));
+        navigate(`/Kanbas/Courses/${cid}/Quizzes`);
+    };
+
+    const cancelAssignment = async () => {
+        const x = structuredClone(quiz);
+        x.points = points;
+        x.number_of_questions = numberOfQuestions;
         await quizClient.updateQuiz(x);
         dispatch(updateQuiz(x));
         navigate(`/Kanbas/Courses/${cid}/Quizzes`);
@@ -106,8 +123,15 @@ export default function QuizEditor() {
             setLockQuestionAfterAnswering(quiz.lock_questions_after_answering);
             setShowCorrectAnswers(quiz.show_correct_answers);
             setShowCorrectAnswersDate(quiz.correct_answer_release_date);
+            let z = 0;
+            questions.map((question: any) => { if(question.points) {z = z + question.points;} });
+            setPoints(z);
+            let q = 0;
+            questions.map((question: any) => { q++; });
+            setNumberOfQuestions(q)
+            
         }
-    }, [quiz]);
+    }, [quiz, questions]);
 
     return (
         <div style={{ maxWidth: "100%", overflowX: "hidden" }}>
@@ -180,7 +204,7 @@ export default function QuizEditor() {
                 </div>
                 {/* ********************************* ^ ASSIGNMENT GROUP ^ ********************************* */}
                 <div className="mb-3" style={{ position: 'relative', top: '-100px', }}>
-                    <label className="form-label" >Total Points: {quiz.points ? quiz.points : 0}</label>
+                    <label className="form-label" >Total Points: {points}</label>
                 </div>
                 <hr style={{ position: 'relative', top: '-100px', }} />
 
@@ -283,7 +307,7 @@ export default function QuizEditor() {
                 </div>
                 {/* ********************************* ^ DATES ^ ********************************* */}
                 <div style={{ position: 'relative', top: '-10px', }} className="d-flex justify-content-end">
-                    <Link to={`/Kanbas/Courses/${cid}/Quizzes`}> <button className="btn btn-secondary me-3">Cancel</button> </Link>
+                    <button onClick={cancelAssignment} className="btn btn-secondary me-3">Cancel</button>
                     <button onClick={saveAssignment} className="btn btn-danger me-3">Save</button>
                     <button onClick={publishAssignment} className="btn btn-success">Save & Publish</button>
                 </div>

@@ -1,8 +1,7 @@
 
-import { useState } from "react";
 import { IoIosLink } from "react-icons/io";
-import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 export default function QuizDetails() {
@@ -32,6 +31,9 @@ export default function QuizDetails() {
     return (
         <div className="container mt-2">
             <div className="d-flex justify-content-center align-items-center">
+            <Link to={`/Kanbas/Courses/${cid}/Quizzes`}>
+                    <button className="btn btn-secondary me-2">Back to Quizzes
+                    </button></Link>
                 <Link to={`/Kanbas/Courses/${cid}/Quizzes/Preview/${qid}`}>
                     <button className="btn btn-secondary me-2">Preview
                     </button></Link>
