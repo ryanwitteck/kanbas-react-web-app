@@ -18,10 +18,7 @@ export default function ProtectedCourse({ children, enrolled, courses }: { child
         course._id === cid && !enrolled
     );
   }
-  console.log("isEnrolled", isEnrolled);
-  console.log("courses", courses);
-  console.log("enrolled val:", enrolled);
-  
+
 
   if (currentUser._id && isEnrolled) {
     return children;
