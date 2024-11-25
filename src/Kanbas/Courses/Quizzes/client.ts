@@ -33,3 +33,24 @@ export const createQuestionForQuiz = async (quizId: string, question: any) => {
   );
   return response.data;
 };
+
+export const submitScore = async (userId: string, quizId: string, score: number, answers: any) => {
+  const response = await axiosWithCredentials.post(
+    `${REMOTE_SERVER}/api/users/${userId}/scores/${quizId}/${score}`,
+    { answers }
+  );
+  return response.data;
+};
+export const getScore = async (userId: string, quizId: string) => {
+  const response = await axiosWithCredentials.get(
+    `${REMOTE_SERVER}/api/users/${userId}/scores/${quizId}`
+  );
+  return response.data;
+};
+export const updateScore = async (score: any) => {
+  const { data } = await axiosWithCredentials.put(
+    `${REMOTE_SERVER}/api/scores/${score._id}`,
+    score
+  );
+  return data;
+};
