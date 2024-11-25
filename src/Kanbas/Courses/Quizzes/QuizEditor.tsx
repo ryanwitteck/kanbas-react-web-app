@@ -29,6 +29,8 @@ export default function QuizEditor() {
     const [showCorrectAnswersDate, setShowCorrectAnswersDate] = useState("");
     const [shuffled, setShuffle] = useState(true);
     const [mutlipleAttempts, setMutlipleAttempts] = useState(false);
+    const [attemptCount, setAttemptCount] = useState(0);
+
     const [oneQuestionAtATime, setOneQuestionAtATime] = useState(true);
     const [webcam, setWebcam] = useState(false);
     const [lockQuestionAfterAnswering, setLockQuestionAfterAnswering] = useState(false);
@@ -52,6 +54,7 @@ export default function QuizEditor() {
         x.quiz_type = quizType;
         x.shuffle = shuffled;
         x.multiple_attempts = mutlipleAttempts;
+        x.attempt_count = attemptCount;
         x.one_question_at_a_time = oneQuestionAtATime;
         x.webcam_required = webcam;
         x.lock_questions_after_answering = lockQuestionAfterAnswering;
@@ -80,6 +83,7 @@ export default function QuizEditor() {
         x.quiz_type = quizType;
         x.shuffle = shuffled;
         x.multiple_attempts = mutlipleAttempts;
+        x.attempt_count = attemptCount;
         x.one_question_at_a_time = oneQuestionAtATime;
         x.webcam_required = webcam;
         x.lock_questions_after_answering = lockQuestionAfterAnswering;
@@ -117,6 +121,7 @@ export default function QuizEditor() {
             setAvailableFrom(quiz.available_start);
             setAvailableUntil(quiz.available_end);
             setMutlipleAttempts(quiz.multiple_attempts);
+            setAttemptCount(quiz.attempt_count);
             setAccessCode(quiz.access_code);
             setOneQuestionAtATime(quiz.one_question_at_a_time);
             setWebcam(quiz.webcam_required);
@@ -124,12 +129,12 @@ export default function QuizEditor() {
             setShowCorrectAnswers(quiz.show_correct_answers);
             setShowCorrectAnswersDate(quiz.correct_answer_release_date);
             let z = 0;
-            questions.map((question: any) => { if(question.points) {z = z + question.points;} });
+            questions.map((question: any) => { if (question.points) { z = z + question.points; } });
             setPoints(z);
             let q = 0;
             questions.map((question: any) => { q++; });
             setNumberOfQuestions(q)
-            
+
         }
     }, [quiz, questions]);
 
@@ -220,6 +225,9 @@ export default function QuizEditor() {
                     <input type="checkbox" id="wd-multiple-attempts" checked={mutlipleAttempts} onChange={() => setMutlipleAttempts(!mutlipleAttempts)} className="" />
                     <label htmlFor="wd-multiple-attempts" className="">&nbsp; Multiple Attempts</label>
                 </div>
+                {mutlipleAttempts && <div style={{ position: 'relative', top: '-100px', }} className="d-flex wd-flex-row-container justify-content-left align-items-center mt-2">
+                    <input style={{ maxWidth: "100px" }} type="number" id="wd-available-until" value={attemptCount} onChange={(e) => setAttemptCount(Number(e.target.value))} className="form-control" />
+                </div>}
                 {/* ********************************* ^ MULTIPLE ATTEMPTS ^ ********************************* */}
                 <div style={{ position: 'relative', top: '-100px', }} className="mt-3">
                     <input type="checkbox" id="wd-one-q-at-a-time" checked={oneQuestionAtATime} onChange={() => setOneQuestionAtATime(!oneQuestionAtATime)} className="" />
@@ -241,7 +249,7 @@ export default function QuizEditor() {
                         onChange={() => setShowCorrectAnswers(!showCorrectAnswers)} className="" />
                     <label htmlFor="wd-show-correct-answers" className="">&nbsp; Show Correct Answers</label>
                 </div>
-                {showCorrectAnswers && <div style={{ position: 'relative', top: '-100px', }} className="d-flex wd-flex-row-container justify-content-left align-items-center">
+                {showCorrectAnswers && <div style={{ position: 'relative', top: '-100px', }} className="d-flex wd-flex-row-container justify-content-left align-items-center mt-2">
                     <input style={{ width: '220px', fontSize: '12px' }} type="datetime-local" id="wd-available-until" value={showCorrectAnswersDate} onChange={(e) => setShowCorrectAnswersDate(e.target.value)} className="form-control" />
                 </div>}
 

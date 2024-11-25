@@ -34,10 +34,10 @@ export const createQuestionForQuiz = async (quizId: string, question: any) => {
   return response.data;
 };
 
-export const submitScore = async (userId: string, quizId: string, score: number, answers: any) => {
+export const submitScore = async (userId: string, quizId: string, score: number, answers: any, attempt: number) => {
   const response = await axiosWithCredentials.post(
     `${REMOTE_SERVER}/api/users/${userId}/scores/${quizId}/${score}`,
-    { answers }
+    { answers, attempt }
   );
   return response.data;
 };

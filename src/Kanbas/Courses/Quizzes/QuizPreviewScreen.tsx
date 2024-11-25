@@ -5,6 +5,8 @@ import { Link, useParams } from "react-router-dom";
 import * as quizClient from "../Quizzes/client"
 import { setQuestions } from "./Questions/reducer";
 import { addScore, setScores, updateScore } from "./Scores/reducer";
+import GreenCheckmark from "../Modules/GreenCheckmark";
+import RedCircle from "./RedCircle";
 
 export default function QuizPreviewScreen() {
     const { cid, qid } = useParams();
@@ -20,7 +22,10 @@ export default function QuizPreviewScreen() {
 
     const [hasSubmit, setSubmit] = useState(false);
     const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+    const [answerCopy, setAnswersCopy] = useState<{ [key: string]: string }>({});
 
+    const isFaculty = currentUser.role === "FACULTY";
+    const isStudent = currentUser.role === "STUDENT";
 
     const dispatch = useDispatch();
 
@@ -29,11 +34,14 @@ export default function QuizPreviewScreen() {
         const Score = await quizClient.getScore(currentUser._id, qid as string);
         dispatch(setQuestions(quizzes));
         dispatch(setScores(Score));
+        
     };
     useEffect(() => {
         fetchQuestions();
-
     }, [hasSubmit]);
+
+    
+ 
 
 
     const handleAnswerChange = (questionId: string, answer: any) => {
@@ -76,31 +84,63 @@ export default function QuizPreviewScreen() {
             const x = structuredClone(score);
             x.score = tally;
             x.answers = answers;
+            x.attempt = x.attempt + 1;
             await quizClient.updateScore(x);
             dispatch(updateScore(x));
         }
         else {
-            const x = await quizClient.submitScore(currentUser._id, qid || "", tally, answers);
+            const x = await quizClient.submitScore(currentUser._id, qid || "", tally, answers, 1);
             dispatch(addScore(x));
         }
+
+        fetchQuestions();
+
     };
+    useEffect(() => {
+        if (score && score.answers) {
+            const obj = score.answers.reduce((acc: any, ans: any) => {
+                acc[ans.questionId] = ans.answer;
+                return acc;
+            }, {});
+            setAnswers(obj);
+            setAnswersCopy(obj);
+        }
+    }, []);
+    useEffect(() => {
+        if (score && Array.isArray(score.answers)) {
+            const obj = score.answers.reduce((acc: any, ans: any) => {
+                acc[ans.questionId] = ans.answer;
+                return acc;
+            }, {});
+            setAnswersCopy(obj);
+        }
+    }, [score]);
+    
     return (
         <div className="container mt-4">
-            <h1 >Quiz Preview: {quiz?.title}</h1>
+            <h1 >Quiz{isFaculty && " Preview"}: {quiz?.title}</h1>
             <div className="d-flex justify-content-between">
                 <b className=""> Started at: {time}</b>
                 {score && <b>Last Attempt Score: {score.score}</b>}
             </div>
             <br />
-            <b style={{ color: "red" }}>This is a preview of the published version of this quiz</b>
+            {isFaculty && <b style={{ color: "red" }}>This is a preview of the published version of this quiz</b>}
 
             {/* ********************************* ^ HEADER ^ ********************************* */}
 
             {questions.map((question: any) => (
                 <div className="card mt-3" key={question._id}>
-                    {/* Header */}
+
                     <div className="card-header d-flex justify-content-between align-items-center">
-                        <h5>{question.title}</h5>
+                        <h5>{question.title}
+                            {answerCopy && answerCopy[question._id] && question.group === "MULTIPLE" && answerCopy[question._id] === question.multiple_answers_answer && <GreenCheckmark />}
+                            {answerCopy && answerCopy[question._id] && question.group === "MULTIPLE" && answerCopy[question._id] !== question.multiple_answers_answer && <RedCircle />}
+                            {answerCopy && answerCopy[question._id] && question.group === "TF" && answerCopy[question._id] === question.tf_answer.toString() && <GreenCheckmark />}
+                            {answerCopy && answerCopy[question._id] && question.group === "TF" && answerCopy[question._id] !== question.tf_answer.toString() && <RedCircle />}
+                            {answerCopy && answerCopy[question._id] && question.group === "FILL_IN" && question.fill_in_answers_array.includes(answerCopy[question._id]) && <GreenCheckmark />}
+                            {answerCopy && answerCopy[question._id] && question.group === "FILL_IN" && !question.fill_in_answers_array.includes(answerCopy[question._id]) && <RedCircle />}
+
+                        </h5>
                         <b style={{ color: "black" }}>{question.points} Points</b>
                     </div>
                     <div className="card-body">
@@ -172,12 +212,20 @@ export default function QuizPreviewScreen() {
 
 
             <div className="d-flex justify-content-between mt-2">
-                <Link to={`/Kanbas/Courses/${cid}/Quizzes/Questions/${qid}`}>
+                {isFaculty && <Link to={`/Kanbas/Courses/${cid}/Quizzes/Questions/${qid}`}>
                     <button className="btn btn-secondary">Keep Editing Quiz</button>
-                </Link>
-                <button className="btn btn-success" onClick={handleSubmit}>
+                </Link>}
+                {(isStudent && score && score.attempt < quiz.attempt_count) &&
+                    <button className="btn btn-success" onClick={handleSubmit}>
+                        Submit Quiz
+                    </button>}
+                {(isStudent && score && score.attempt >= quiz.attempt_count) && "You have exceeded the amount of attempts for this quiz"}
+                {(isStudent && !score) && <button className="btn btn-success" onClick={handleSubmit}>
                     Submit Quiz
-                </button>
+                </button>}
+                {isFaculty && <button className="btn btn-success" onClick={handleSubmit}>
+                    Submit Quiz
+                </button>}
 
             </div>
 

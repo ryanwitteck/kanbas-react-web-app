@@ -14,7 +14,8 @@ const scoreSlice = createSlice({
         _id: new Date().getTime().toString(),
         user: score.user,
         quiz: score.quiz,
-        answers: score.answers || []
+        answers: score.answers || [],
+        attempt: score.attempt
       };
       state.scores = [...state.scores, newScore] as any;
     },

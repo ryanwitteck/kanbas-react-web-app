@@ -1,9 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { IoEllipsisVertical } from "react-icons/io5";
 import GreenCheckmark from "../Modules/GreenCheckmark";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import QuizDeleter from "./QuizDeleter";
 import * as quizClient from "./client";
-import { useNavigate } from "react-router";
 import { updateQuiz } from "./reducer";
 import RedCircle from "./RedCircle";
 
@@ -20,13 +20,7 @@ export default function QuizRightSideIcons({
         deleteQuiz: (quizId: string) => void;
         buttonId: string;
     }) {
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
-    const role = currentUser.role === "FACULTY";
-    const quizzes = useSelector((state: any) => state.quizReducer.quizzes);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-
     const publishQuiz = async () => {
         let x = structuredClone(quiz);
         x.published = !x.published;

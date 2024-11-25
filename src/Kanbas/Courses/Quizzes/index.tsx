@@ -1,10 +1,11 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import QuizTopBar from "./QuizTopBar";
 import { useDispatch, useSelector } from "react-redux";
-import { addQuiz, deleteQuiz, updateQuiz, setQuizzes } from "./reducer";
+import { addQuiz, deleteQuiz, setQuizzes } from "./reducer";
 import { IoIosArrowDown } from "react-icons/io";
 
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useEffect } from "react";
 import * as courseClient from "../client";
 import QuizLeftButtons from "./QuizLeftButtons";
@@ -20,7 +21,6 @@ export default function Quizzes() {
   const isFaculty = currentUser.role === "FACULTY";
   const isStudent = currentUser.role === "STUDENT";
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const fetchQuizzes = async () => {
     const quizzes = await courseClient.findQuizzesForCourse(cid as string);
@@ -68,35 +68,45 @@ export default function Quizzes() {
                 const isQuizAvailable = new Date(quiz.available_start) < new Date()
                   && new Date(quiz.available_end) > new Date();
                 const isQuizInFuture = new Date(quiz.available_start) > new Date();
-                return (
-                  <li className="wd-lesson list-group-item p-3 ps-1">
-                    <QuizLeftButtons />
-                    <div className="d-flex flex-column">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <a style={{ display: "block", textDecoration: "none", color: "black" }} href={`#/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}`}><b>{quiz.title}</b></a>
-                      </div>
-                      <div className="row">
-                        <div className="col-4 text-danger fs-6" style={{ wordWrap: "break-word" }} >
-                          {!quiz.available_start && !quiz.available_end && "Date Not Set"}
-                          {hasQuizPassed && !isQuizInFuture && "Closed"}
-                          {isQuizAvailable && <div>Available Until: {new Date(quiz.available_end).toLocaleDateString()} at {new Date(quiz.available_end).toLocaleTimeString()}</div>}
-                          {isQuizInFuture && <div>Not Available Until:  {new Date(quiz.available_start).toLocaleDateString()} at {new Date(quiz.available_start).toLocaleTimeString()}</div>}
+                if ((isStudent && quiz.published) || isFaculty) {
+                  return (
+                    <div>
+                      <li className="wd-lesson list-group-item p-3 ps-1">
+                        <QuizLeftButtons />
+                        <div className="d-flex flex-column">
+                          <div className="d-flex justify-content-between align-items-center">
+                            {isFaculty ? <a style={{ display: "block", textDecoration: "none", color: "black" }} href={`#/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}`}>
+                              <b>{quiz.title}</b>
+                            </a> :
+                              <a style={{ display: "block", textDecoration: "none", color: "black" }} href={`#/Kanbas/Courses/${quiz.course}/Quizzes/Preview/${quiz._id}`}>
+                                <b>{quiz.title}</b>
+                              </a>}
+                          </div>
+                          <div className="row">
+                            <div className="col-4 text-danger fs-6" style={{ wordWrap: "break-word" }} >
+                              {!quiz.available_start && !quiz.available_end && "Date Not Set"}
+                              {hasQuizPassed && !isQuizInFuture && "Closed"}
+                              {isQuizAvailable && <div>Available Until: {new Date(quiz.available_end).toLocaleDateString()} at {new Date(quiz.available_end).toLocaleTimeString()}</div>}
+                              {isQuizInFuture && <div>Not Available Until:  {new Date(quiz.available_start).toLocaleDateString()} at {new Date(quiz.available_start).toLocaleTimeString()}</div>}
+                            </div>
+                            <div className="col-6  fs-5 " style={{ wordWrap: "break-word" }}>
+                              Due on: {new Date(quiz.due_date).toLocaleDateString()} at {new Date(quiz.due_date).toLocaleTimeString()} | {quiz.points ? quiz.points : 0}&nbsp;Points | {quiz.number_of_questions ? quiz.number_of_questions : 0}&nbsp;Questions
+                            </div>
+                            <div className="col-1 " >
+                            </div>
+                          </div>
                         </div>
-                        <div className="col-6  fs-5 " style={{ wordWrap: "break-word" }}>
-                          Due on: {new Date(quiz.due_date).toLocaleDateString()} at {new Date(quiz.due_date).toLocaleTimeString()} | {quiz.points ? quiz.points : 0}&nbsp;Points | {quiz.number_of_questions ? quiz.number_of_questions : 0}&nbsp;Questions
+                        <div style={{ position: "absolute", right: "0px", top: "40%" }}>
+                          {isFaculty && <QuizRightSideIcons
+                            cid={cid}
+                            quiz={quiz}
+                            quizId={quiz._id}
+                            deleteQuiz={removeQuiz}
+                            buttonId={`delete-assignment-${quiz._id}`} />}
                         </div>
-                        <div className="col-1 " >
-                        </div>
-                      </div>
-                    </div>
-                    <div style={{ position: "absolute", right: "0px", top: "40%" }}>
-                      <QuizRightSideIcons
-                        cid={cid}
-                        quiz={quiz}
-                        quizId={quiz._id}
-                        deleteQuiz={removeQuiz}
-                        buttonId={`delete-assignment-${quiz._id}`} /></div>
-                  </li>);
+                      </li></div>
+                  );
+                }
               })}
           </ul>
         </li>
