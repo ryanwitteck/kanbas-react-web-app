@@ -10,6 +10,7 @@ export default function QuizDetails() {
 
     const quizzes = useSelector((state: any) => state.quizReducer.quizzes);
     const quiz = quizzes.find((q: any) => q._id === qid);
+    while(!quiz){};
     //MISC FUNCTIONS 
     let gradeTypeMessage = "Graded Quiz";
     switch (quiz.quiz_type) {

@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { addQuiz, deleteQuiz, setQuizzes } from "./reducer";
 import { IoIosArrowDown } from "react-icons/io";
 
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import * as courseClient from "../client";
 import QuizLeftButtons from "./QuizLeftButtons";
 import QuizRightSideIcons from "./QuizRightSideIcons";
 import * as quizClient from "./client";
+import { setScores } from "./Scores/reducer";
 
 
 
@@ -21,10 +22,15 @@ export default function Quizzes() {
   const isFaculty = currentUser.role === "FACULTY";
   const isStudent = currentUser.role === "STUDENT";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { scores } = useSelector((state: any) => state.scoreReducer);
+
 
   const fetchQuizzes = async () => {
     const quizzes = await courseClient.findQuizzesForCourse(cid as string);
+    const x = await quizClient.getScoreByUser(currentUser._id);
     dispatch(setQuizzes(quizzes));
+    dispatch(setScores(x));
   };
   useEffect(() => {
     fetchQuizzes();
@@ -39,6 +45,7 @@ export default function Quizzes() {
     const quiz = await courseClient.createQuizForCourse(cid, newQuiz);
     dispatch(addQuiz(quiz));
     fetchQuizzes();
+    navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`);
   };
 
   const removeQuiz = async (quizId: string) => {
@@ -68,6 +75,7 @@ export default function Quizzes() {
                 const isQuizAvailable = new Date(quiz.available_start) < new Date()
                   && new Date(quiz.available_end) > new Date();
                 const isQuizInFuture = new Date(quiz.available_start) > new Date();
+                const score = scores.find((s: any) => s.user === currentUser._id && s.quiz === quiz._id)
                 if ((isStudent && quiz.published) || isFaculty) {
                   return (
                     <div>
@@ -91,6 +99,7 @@ export default function Quizzes() {
                             </div>
                             <div className="col-6  fs-5 " style={{ wordWrap: "break-word" }}>
                               Due on: {new Date(quiz.due_date).toLocaleDateString()} at {new Date(quiz.due_date).toLocaleTimeString()} | {quiz.points ? quiz.points : 0}&nbsp;Points | {quiz.number_of_questions ? quiz.number_of_questions : 0}&nbsp;Questions
+                              {score && score.score && `| Last Attempt: ${score.score} pts`}
                             </div>
                             <div className="col-1 " >
                             </div>

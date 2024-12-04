@@ -124,7 +124,8 @@ export default function QuizPreviewScreen() {
                 {score && <b>Last Attempt Score: {score.score}</b>}
             </div>
             <br />
-            {isFaculty && <b style={{ color: "red" }}>This is a preview of the published version of this quiz</b>}
+            {isFaculty && <b style={{ color: "red" }}>This is a preview of the published version of this quiz:</b>}
+            <br/>{quiz.description}
 
             {/* ********************************* ^ HEADER ^ ********************************* */}
 
