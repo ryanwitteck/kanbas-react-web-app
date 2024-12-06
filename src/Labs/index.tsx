@@ -11,8 +11,11 @@ export default function Labs() {
   return (
     <Provider store={store}>
       <div className="container-fluid">
+        <h2>Final Project Build</h2>
         <h3>Ryan Witteck</h3>
         <h4>Section 2 </h4>
+        <h3>Aryan Kulkarni</h3>
+        <h4>Section 1</h4>
         <h1>Labs</h1>
         <TOC />
         <Routes>
